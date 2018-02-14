@@ -1,0 +1,17 @@
+extends layout
+
+include mixins/_storeCard
+include mixins/_pagination
+
+block content
+    .inner
+        h2= title
+        //- dumping the raw stores data
+        //- pre= h.dump(stores)
+
+        .stores
+            each store in stores
+                +storeCard(store)
+
+        //- set pagination here
+        +pagination(page, pages, count)

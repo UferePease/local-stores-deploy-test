@@ -1,0 +1,14 @@
+extends layout
+
+block content
+    .inner
+        h2 Edit Your Account
+        //- you can dump the user data here
+        //- pre= h.dump(user)
+        form(action="/account" method="POST")
+            label(for="name") Name
+            //- NOTE: we are using the user that passport makes available to us
+            input(type="text" name="name" value=user.name)
+            label(for="email") Email Address
+            input(type="email" name="email" value=user.email)
+            input.button(type="submit", value="Update My Account")

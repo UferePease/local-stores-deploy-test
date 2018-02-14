@@ -1,0 +1,44 @@
+mixin storeCard(store = {})
+    .store
+        .store__hero
+            .store__actions
+                //- if store.author._id.equals(user._id)
+                //- pre= h.dump(store.author)
+                //- pre= h.dump(store)
+
+                //- check that user exists before showing the heart interface
+                if user
+                    .store__action.store__action--heart
+                        //- since we are submitting a form, lets have a form tag
+                        form.heart(method="POST" action=`/api/v1/stores/${store._id}/heart`)
+                            //- show the heart icon based on whether it is herated or not. We are making a variable here
+                            - const heartStrings = user.hearts.map(obj => obj.toString());
+
+                            //- pre= h.dump(heartStrings)
+                            //- pre= h.dump(store._id)
+
+                            //- set the heart class
+                            - const heartClass = heartStrings.includes(store._id.toString()) ? 'heart__button--hearted' : ''
+                            button.heart__button(type="submit" name="heart" class=heartClass)
+                                //- add the heart icon
+                                != h.icon('heart')
+
+                //- check that a user exists and that the user is the author of the store before showing the edit button
+                if user && store.author.equals(user._id)
+                    .store__action.store__action--edit
+                        a(href=`/stores/${store._id}/edit`)
+                            //- adding html text, start with !=
+                            != h.icon('pencil')   
+
+                //- show munber of reviews
+                if store.reviews
+                    .store__action.store__action--count
+                        != h.icon('review')
+                        span= store.reviews.length
+
+            img(src=`/uploads/${store.photo || 'store.png'}`, alt="")
+            h2.title
+                a(href=`/store/${store.slug}`) #{store.name}
+        .store__details
+            //- showing the first 25 words
+            p= store.description.split(' ').slice(0, 25).join(' ')

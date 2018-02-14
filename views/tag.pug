@@ -1,0 +1,23 @@
+extends layout
+
+//- include store card mixim
+include mixins/_storeCard
+
+block content
+    .inner
+        h2 #{tag || 'Tags'}
+        //- a quick dump here
+        //- pre= h.dump(tags)
+        ul.tags
+            each t in tags
+                li.tag
+                    //- we are also adding the active class to the tag if it is the currently selected one
+                    a.tag__link(href=`/tags/${t._id}` class=(t._id === tag ? 'tag__link--active' : ''))
+                        span.tag__text= t._id
+                        span.tag__count= t.count
+
+        //- pre= h.dump(stores)
+        .stores
+            each store in stores
+                //- reuse our store card
+                +storeCard(store)

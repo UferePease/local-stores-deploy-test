@@ -1,0 +1,45 @@
+extends layout
+
+//- include mixin for review form and review
+include mixins/_reviewForm
+include mixins/_review
+
+block content
+    //- h2 #{store.name}
+    //- pre= h.dump(store)
+    //- to see populated virtual fields (e.g reviews), we should call store.review
+    //- pre= h.dump(store.reviews)
+    .single
+        .single__hero
+            img.single__image(src=`/uploads/${store.photo || 'store.png'}`, alt="")
+            h2.title.title--single
+                a(href=`/stores/${store.slug}`) #{store.name}
+
+    .single__details.inner
+        //- pre=h.dump(store)  just dumping the data to see 
+        //- using helper fxn to get the static map
+        img.single__map(src=h.staticMap(store.location.coordinates), alt="")
+        p.single__location= store.location.address
+        p= store.description
+
+        //- list the tags associated with the store
+        if store.tags
+            ul.tags
+                each tag in store.tags
+                    li.tag
+                        a.tag__link(href=`/tags/${tag}`)
+                            span.tag_text   ##{tag}
+
+        //- show the review form if user is logged in
+        if user
+            +reviewForm(store)
+
+        //- show the reviews for this store if any
+        if store.reviews
+            .reviews
+                each rev in store.reviews
+                    .review
+                        +review(rev)
+                        
+                        
+                            
